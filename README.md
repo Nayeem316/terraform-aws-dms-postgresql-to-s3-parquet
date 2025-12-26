@@ -61,4 +61,6 @@ Databricks / Spark / Athena
 ## Usage
 1. Clone the repository:
    ```bash
-   git clone https://github.com/<your-username>/terraform-aws-dms-postgresql-to-s3-parquet.git
+ 
+ git clone    https://github.com/Nayeem316/terraform-aws-dms-postgresql-to-s3-parquet.git
+   
