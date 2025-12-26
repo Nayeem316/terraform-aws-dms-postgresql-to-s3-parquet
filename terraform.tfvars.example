@@ -1,0 +1,13 @@
+# Example values only (DO NOT put real secrets in git)
+# Copy this to terraform.tfvars and update values as needed.
+
+# Optional: allow your workstation to connect to PostgreSQL directly (lab/demo).
+# Set to null to disable public access rules (recommended).
+public_db_allowed_cidr = null
+# public_db_allowed_cidr = "YOUR_PUBLIC_IP/32"
+
+db_password  = "REPLACE_ME"
+dms_password = "REPLACE_ME"
+
+# Optional: if you changed the DMS username in Postgres.
+dms_username = "dms_user"
