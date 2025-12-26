@@ -9,7 +9,7 @@ resource "aws_db_instance" "hr" {
   db_subnet_group_name   = aws_db_subnet_group.rds_hybrid.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   multi_az               = true
-  publicly_accessible = var.enable_public_rds
+  publicly_accessible    = var.enable_public_rds
 
   parameter_group_name = aws_db_parameter_group.hr_dms.name
   apply_immediately    = true
