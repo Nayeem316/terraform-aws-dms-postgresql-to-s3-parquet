@@ -150,3 +150,73 @@ This repo expects you to provide values for sensitive variables (`db_password`, 
 ```bash
 terraform init
 
+2) Create your local tfvars file
+
+Create terraform.tfvars (this file should remain uncommitted):
+
+public_db_allowed_cidr = "YOUR_PUBLIC_IP/32"
+
+db_password  = "REPLACE_ME"
+dms_password = "REPLACE_ME"
+
+# If you keep the module as-is, provide subnet IDs for DMS:
+dms_subnet_ids = [
+  "subnet-xxxxxxxxxxxxxxxxx",
+  "subnet-yyyyyyyyyyyyyyyyy"
+]
+
+3) Plan and apply
+terraform plan
+terraform apply
+
+Post-deploy: database setup required
+
+Terraform provisions the RDS instance, but you must ensure:
+
+The schema exists (ex: hr)
+
+The tables exist (ex: hr.*)
+
+The DMS user (default: dms_user) exists with the right permissions
+
+Example (conceptual) SQL steps:
+
+CREATE USER dms_user WITH PASSWORD '...';
+GRANT rds_replication TO dms_user;
+
+CREATE SCHEMA IF NOT EXISTS hr;
+-- Create tables in hr schema here
+GRANT USAGE ON SCHEMA hr TO dms_user;
+GRANT SELECT ON ALL TABLES IN SCHEMA hr TO dms_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA hr GRANT SELECT ON TABLES TO dms_user;
+
+
+Permissions vary based on your DMS configuration and database security posture.
+
+What data is replicated?
+
+The DMS task is configured to include:
+
+Schema: hr
+
+Tables: all (%)
+
+It uses migration_type = "full-load-and-cdc" which:
+
+Performs an initial full load
+
+Then continues streaming changes (CDC) into S3
+
+Validate output
+
+Open the S3 bucket created by Terraform (look for a name like dms-hr-parquet-<account>-dev)
+
+Check under the folder prefix hr/
+
+Confirm Parquet files are created and updated after inserts/updates in PostgreSQL
+
+Cleanup
+terraform destroy
+
+
+Note: RDS final snapshot behavior depends on your RDS configuration (and can block destroy if snapshots are required).
