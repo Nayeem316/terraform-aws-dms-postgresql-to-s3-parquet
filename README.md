@@ -86,4 +86,67 @@ Author
 
 Maintained by a Senior Cloud DBA / Data Platform Engineer with expertise in
 AWS, Terraform, Databricks, and large-scale data migrations.
-   
+
+
+# Terraform: RDS PostgreSQL → AWS DMS → S3 (Parquet)
+
+This repository provisions an AWS-based demo pipeline that replicates data from an **Amazon RDS PostgreSQL** database into **Amazon S3** using **AWS Database Migration Service (DMS)**, writing data as **Parquet** files.
+
+> Intended as a learning / reference project for Terraform + AWS DMS patterns.
+
+---
+
+## Architecture
+
+- **VPC** with:
+  - 2 public subnets (across 2 AZs)
+  - 2 private subnets (across 2 AZs)
+  - Internet Gateway (public routing)
+  - NAT Gateways (private egress)
+- **RDS PostgreSQL** (Multi-AZ, encrypted)
+  - Parameter group enables logical replication for DMS
+- **AWS DMS**
+  - Replication subnet group
+  - Replication instance
+  - Source endpoint: PostgreSQL
+  - Target endpoint: S3 (Parquet + GZIP)
+  - Replication task: **full-load-and-cdc**
+- **S3 bucket** for DMS output
+  - Versioning enabled
+  - Public access blocked
+- **IAM role/policy** allowing DMS to write objects to the S3 bucket
+
+---
+
+## Prerequisites
+
+- Terraform installed (v1.5+ recommended)
+- AWS account + credentials configured locally (AWS CLI, SSO, or environment variables)
+- Permissions to create:
+  - VPC/Subnets/IGW/NAT
+  - RDS instances + parameter groups
+  - DMS replication instances/endpoints/tasks
+  - S3 buckets
+  - IAM roles/policies
+
+---
+
+## Important: secrets + tfvars
+
+Do **NOT** commit real secrets into Git.
+
+This repo expects you to provide values for sensitive variables (`db_password`, `dms_password`) via one of these approaches:
+
+- `terraform.tfvars` (local only, gitignored)
+- `TF_VAR_db_password` and `TF_VAR_dms_password` environment variables
+- A secrets manager integration (recommended for production)
+
+---
+
+## Quick Start
+
+### 1) Clone and initialize
+
+```bash
+terraform init
+
