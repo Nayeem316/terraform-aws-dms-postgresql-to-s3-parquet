@@ -63,4 +63,27 @@ Databricks / Spark / Athena
    ```bash
  
  git clone    https://github.com/Nayeem316/terraform-aws-dms-postgresql-to-s3-parquet.git
+
+ Use Cases
+
+Data lake ingestion
+
+Lakehouse architectures
+
+Analytics modernization
+
+Database migration and replication
+
+Databricks ingestion pipelines
+
+Notes
+
+This project is intended for educational purposes
+
+Security hardening (encryption, KMS, private endpoints) can be added as enhancements
+
+Author
+
+Maintained by a Senior Cloud DBA / Data Platform Engineer with expertise in
+AWS, Terraform, Databricks, and large-scale data migrations.
    
