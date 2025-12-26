@@ -1,0 +1,17 @@
+aws_region  = "us-east-2"
+environment = "dev"
+name_prefix = "pg-dms-s3"
+
+# Strongly recommended: set via environment variables instead:
+#   export TF_VAR_db_password="..."
+#   export TF_VAR_dms_password="..."
+db_password  = "REPLACE_ME"
+dms_password = "REPLACE_ME"
+
+# Private-by-default (recommended)
+enable_public_rds = false
+enable_public_dms = false
+public_db_allowed_cidr = null
+
+# Optional: override DMS subnets (otherwise uses private subnets created by this repo)
+# dms_subnet_ids = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"]
