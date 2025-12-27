@@ -1,5 +1,5 @@
 resource "aws_dms_replication_subnet_group" "dms" {
-  replication_subnet_group_id          = "dms-subnet-group"
+  replication_subnet_group_id = "${var.name_prefix}-dms-subnet-${var.environment}"
   replication_subnet_group_description = "DMS subnet group"
   subnet_ids                           = coalesce(var.dms_subnet_ids, aws_subnet.private[*].id)
 }

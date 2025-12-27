@@ -1,5 +1,5 @@
 resource "aws_db_subnet_group" "rds_hybrid" {
-  name        = "rds-hybrid-subnet-group"
+  name = "${var.name_prefix}-rds-subnet-${var.environment}"
   description = "Private subnets for RDS"
   subnet_ids  = aws_subnet.private[*].id
 
