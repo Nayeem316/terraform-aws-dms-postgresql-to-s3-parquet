@@ -10,6 +10,7 @@ resource "aws_dms_endpoint" "src_pg" {
   username = "dms_user"
   password = var.dms_password
   ssl_mode = "require"
+  tags = merge(local.common_tags, { Name = "hr-src-pg" })
 }
 
 resource "aws_dms_s3_endpoint" "tgt_s3" {
@@ -22,4 +23,5 @@ resource "aws_dms_s3_endpoint" "tgt_s3" {
 
   data_format      = "parquet"
   compression_type = "GZIP"
+  tags = merge(local.common_tags, { Name = "hr-tgt-s3" })
 }

@@ -5,6 +5,7 @@ resource "aws_dms_replication_task" "hr_pg_to_s3_parquet" {
   replication_instance_arn = aws_dms_replication_instance.ri.replication_instance_arn
   source_endpoint_arn      = aws_dms_endpoint.src_pg.endpoint_arn
   target_endpoint_arn      = aws_dms_s3_endpoint.tgt_s3.endpoint_arn
+  tags = merge(local.common_tags, { Name = "hr-pg-to-s3-parquet" })
 
   table_mappings = jsonencode({
     rules = [

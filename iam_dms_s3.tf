@@ -16,7 +16,6 @@ resource "aws_iam_role" "dms_s3_role" {
       }
     ]
   })
-
   tags = merge(local.common_tags, { Name = "dms-s3-access-role" })
 }
 
