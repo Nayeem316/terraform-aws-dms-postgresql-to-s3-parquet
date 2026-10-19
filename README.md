@@ -9,7 +9,7 @@ Default posture is **private-by-default** (recommended):
 
 ---
 
-## Architecture (high level)
+## Architecture (high level).
 
 - VPC (2 AZs)
   - Public subnets (for NAT gateways / public routing)
